@@ -57,7 +57,7 @@
 
         /* Hero */
         .hero {
-            padding: 3rem 1.25rem;
+            padding: 3rem 1.25rem 2rem;
             text-align: center;
             background: linear-gradient(135deg, var(--black) 0%, var(--black-light) 50%, var(--black) 100%);
         }
@@ -74,6 +74,7 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             margin-bottom: 1rem;
+            animation: fadeDown 0.7s ease 0.1s both;
         }
 
         .hero h1 {
@@ -82,6 +83,7 @@
             font-weight: 700;
             line-height: 1.2;
             margin-bottom: 1rem;
+            animation: fadeDown 0.7s ease 0.2s both;
         }
 
         .hero h1 span { color: var(--green); }
@@ -90,11 +92,12 @@
             font-size: 0.9rem;
             color: var(--white-soft);
             max-width: 500px;
-            margin: 0 auto 1.5rem;
+            margin: 0 auto;
             line-height: 1.5;
+            animation: fadeDown 0.7s ease 0.3s both;
         }
 
-        /* Problem / Solution */
+        /* Comparison */
         .section {
             padding: 2.5rem 1.25rem;
         }
@@ -117,7 +120,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Comparison */
         .compare {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -132,11 +134,7 @@
             border: 1px solid var(--grey);
         }
 
-        .compare-card h3 {
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-        }
+        .compare-card h3 { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem; }
 
         .compare-card ul {
             list-style: none;
@@ -150,18 +148,133 @@
             position: relative;
         }
 
-        .compare-card li::before {
-            position: absolute;
-            left: 0;
-        }
+        .compare-card li::before { position: absolute; left: 0; }
 
         .old h3 { color: #ff6b6b; }
         .old { background: rgba(255, 107, 107, 0.05); border-color: rgba(255, 107, 107, 0.2); }
         .old li::before { content: "✕"; color: #ff6b6b; }
 
-        .new { background: rgba(0, 255, 65, 0.05); border-color: rgba(0, 255, 65, 0.2); }
         .new h3 { color: var(--green); }
+        .new { background: rgba(0, 255, 65, 0.05); border-color: rgba(0, 255, 65, 0.2); }
         .new li::before { content: "✓"; color: var(--green); }
+
+        /* ===== ANIMATED FLOW ===== */
+        .flow-section {
+            padding: 3rem 1.25rem;
+            background: var(--black-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flow-canvas {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+        }
+
+        .flow-canvas canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .flow-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .flow-label {
+            color: var(--green);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .flow-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .flow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            align-items: center;
+        }
+
+        .flow-step {
+            width: 100%;
+            max-width: 260px;
+            padding: 1.25rem;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--grey);
+            border-radius: 14px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .flow-step.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .flow-step.active .step-icon {
+            animation: iconPulse 1s ease;
+        }
+
+        .step-icon {
+            width: 44px;
+            height: 44px;
+            background: rgba(0, 255, 65, 0.12);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.6rem;
+            font-size: 1.2rem;
+        }
+
+        .flow-step h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .flow-step p {
+            font-size: 0.75rem;
+            color: var(--white-soft);
+            line-height: 1.4;
+        }
+
+        .flow-connector {
+            width: 2px;
+            height: 30px;
+            background: linear-gradient(to bottom, var(--green), transparent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flow-connector::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--green));
+            animation: connectorFlow 1.5s ease-in-out infinite;
+        }
+
+        .flow-connector:nth-child(4)::after { animation-delay: 0.5s; }
 
         /* Features */
         .features-grid {
@@ -180,60 +293,8 @@
             border-left: 3px solid var(--green);
         }
 
-        .feature h3 {
-            font-size: 0.9rem;
-            color: var(--green);
-            margin-bottom: 0.35rem;
-        }
-
-        .feature p {
-            font-size: 0.8rem;
-            color: var(--white-soft);
-            line-height: 1.5;
-        }
-
-        /* Flow */
-        .flow {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        .flow-step {
-            width: 100%;
-            padding: 1rem;
-            background: var(--black);
-            border: 1px solid var(--grey);
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .flow-step .num {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--green);
-        }
-
-        .flow-step .label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-top: 0.15rem;
-        }
-
-        .flow-step .desc {
-            font-size: 0.75rem;
-            color: var(--white-soft);
-            margin-top: 0.15rem;
-        }
-
-        .flow-arrow {
-            color: var(--green);
-            font-size: 1.25rem;
-        }
+        .feature h3 { font-size: 0.9rem; color: var(--green); margin-bottom: 0.35rem; }
+        .feature p { font-size: 0.8rem; color: var(--white-soft); line-height: 1.5; }
 
         /* CTA */
         .cta {
@@ -279,14 +340,58 @@
 
         .footer a { color: var(--green); text-decoration: none; }
 
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes iconPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes connectorFlow {
+            0% { top: -100%; }
+            100% { top: 100%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes particleFade {
+            0% { opacity: 0; transform: translateY(0) scale(0); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-40px) scale(1); }
+        }
+
         /* Desktop */
         @media (min-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
             .features-grid { grid-template-columns: repeat(2, 1fr); max-width: 700px; }
             .compare { max-width: 600px; }
-            .flow { flex-direction: row; max-width: 700px; }
+            .flow-steps { flex-direction: row; gap: 0; justify-content: center; }
             .flow-step { max-width: 200px; }
-            .flow-arrow { transform: rotate(90deg); }
+            .flow-connector {
+                width: 40px;
+                height: 2px;
+                background: linear-gradient(to right, var(--green), transparent);
+            }
+            .flow-connector::after {
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to right, transparent, var(--green));
+                animation: connectorFlowH 1.5s ease-in-out infinite;
+            }
+            .flow-connector:nth-child(4)::after { animation-delay: 0.5s; }
+        }
+
+        @keyframes connectorFlowH {
+            0% { left: -100%; top: 0; }
+            100% { left: 100%; top: 0; }
         }
     </style>
 </head>
@@ -302,7 +407,6 @@
         <p>Stop hiring cold callers. Start automating your pipeline. AI finds, qualifies, and delivers leads so you can focus on closing deals.</p>
     </section>
 
-    <!-- Problem vs Solution -->
     <section class="section">
         <div class="section-label">The Shift</div>
         <div class="section-title">Cold Calling vs AI Automation</div>
@@ -332,32 +436,36 @@
         </div>
     </section>
 
-    <!-- How It Works -->
-    <section class="section section-dark">
-        <div class="section-label">Process</div>
-        <div class="section-title">How It Works</div>
-        <div class="flow">
-            <div class="flow-step">
-                <div class="num">01</div>
-                <div class="label">Find</div>
-                <div class="desc">AI scans property data, listings, and public records to identify potential seller leads</div>
-            </div>
-            <div class="flow-arrow">↓</div>
-            <div class="flow-step">
-                <div class="num">02</div>
-                <div class="label">Qualify</div>
-                <div class="desc">Leads are filtered by criteria so you only get hot prospects</div>
-            </div>
-            <div class="flow-arrow">↓</div>
-            <div class="flow-step">
-                <div class="num">03</div>
-                <div class="label">Deliver</div>
-                <div class="desc">Qualified leads land in your pipeline ready to close</div>
+    <!-- Animated How It Works -->
+    <section class="flow-section">
+        <div class="flow-canvas">
+            <canvas id="bgCanvas"></canvas>
+        </div>
+        <div class="flow-content">
+            <div class="flow-label">Process</div>
+            <div class="flow-title">How It Works</div>
+            <div class="flow-steps">
+                <div class="flow-step" data-step="1">
+                    <div class="step-icon">🔍</div>
+                    <h3>Find</h3>
+                    <p>AI scans property data, listings, and public records to identify potential seller leads</p>
+                </div>
+                <div class="flow-connector"></div>
+                <div class="flow-step" data-step="2">
+                    <div class="step-icon">⚡</div>
+                    <h3>Qualify</h3>
+                    <p>Leads are filtered by your criteria so you only get motivated, ready-to-deal prospects</p>
+                </div>
+                <div class="flow-connector"></div>
+                <div class="flow-step" data-step="3">
+                    <div class="step-icon">🎯</div>
+                    <h3>Deliver</h3>
+                    <p>Qualified leads land in your pipeline organized, prioritized, and ready to close</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Features -->
     <section class="section">
         <div class="section-label">Capabilities</div>
         <div class="section-title">What the System Does</div>
@@ -381,7 +489,6 @@
         </div>
     </section>
 
-    <!-- CTA -->
     <section class="cta">
         <h2>Ready to See It Live?</h2>
         <p>This is a demo preview. The full system is custom-built for your operation.</p>
@@ -392,5 +499,92 @@
         Built by <a href="https://nasirr.innergintel.org">Nasirr Mayo</a> ~ OwnYourWeb Systems<br>
         InnerG Intel ~ AI Education & Business Automation
     </footer>
+
+    <script>
+        // Particle background
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.offsetWidth;
+            canvas.height = canvas.parentElement.offsetHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.3 + 0.05;
+                this.life = Math.random() * 200 + 100;
+                this.maxLife = this.life;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life--;
+                if (this.life <= 0 || this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+            draw() {
+                const fade = this.life / this.maxLife;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(0, 255, 65, ${this.opacity * fade})`;
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 50; i++) particles.push(new Particle());
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw connections
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(0, 255, 65, ${0.05 * (1 - dist / 100)})`;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        // Scroll-triggered step animations
+        const steps = document.querySelectorAll('.flow-step');
+        const stepObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const delay = parseInt(entry.target.dataset.step) * 300;
+                    setTimeout(() => entry.target.classList.add('active'), delay);
+                    stepObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        steps.forEach(s => stepObserver.observe(s));
+    </script>
 </body>
 </html>
