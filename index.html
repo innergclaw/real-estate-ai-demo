@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Lead System | Real Estate Automation Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --black-light: #141414;
+            --grey: #2a2a2a;
+            --green: #00FF41;
+            --white: #ffffff;
+            --white-soft: #f5f5f5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Nav */
+        .nav {
+            padding: 1rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--green);
+        }
+
+        .nav-link {
+            color: var(--green);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid var(--green);
+            padding: 0.4rem 0.75rem;
+            border-radius: 6px;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 3rem 1.25rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--black) 0%, var(--black-light) 50%, var(--black) 100%);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: var(--green);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 span { color: var(--green); }
+
+        .hero p {
+            font-size: 0.9rem;
+            color: var(--white-soft);
+            max-width: 500px;
+            margin: 0 auto 1.5rem;
+            line-height: 1.5;
+        }
+
+        /* Problem / Solution */
+        .section {
+            padding: 2.5rem 1.25rem;
+        }
+
+        .section-dark { background: var(--black-light); }
+
+        .section-label {
+            color: var(--green);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Comparison */
+        .compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .compare-card {
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid var(--grey);
+        }
+
+        .compare-card h3 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .compare-card ul {
+            list-style: none;
+            font-size: 0.8rem;
+            color: var(--white-soft);
+        }
+
+        .compare-card li {
+            padding: 0.3rem 0;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .compare-card li::before {
+            position: absolute;
+            left: 0;
+        }
+
+        .old h3 { color: #ff6b6b; }
+        .old { background: rgba(255, 107, 107, 0.05); border-color: rgba(255, 107, 107, 0.2); }
+        .old li::before { content: "✕"; color: #ff6b6b; }
+
+        .new { background: rgba(0, 255, 65, 0.05); border-color: rgba(0, 255, 65, 0.2); }
+        .new h3 { color: var(--green); }
+        .new li::before { content: "✓"; color: var(--green); }
+
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .feature {
+            padding: 1.25rem;
+            background: var(--black);
+            border: 1px solid var(--grey);
+            border-radius: 12px;
+            border-left: 3px solid var(--green);
+        }
+
+        .feature h3 {
+            font-size: 0.9rem;
+            color: var(--green);
+            margin-bottom: 0.35rem;
+        }
+
+        .feature p {
+            font-size: 0.8rem;
+            color: var(--white-soft);
+            line-height: 1.5;
+        }
+
+        /* Flow */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .flow-step {
+            width: 100%;
+            padding: 1rem;
+            background: var(--black);
+            border: 1px solid var(--grey);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .flow-step .num {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .flow-step .label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 0.15rem;
+        }
+
+        .flow-step .desc {
+            font-size: 0.75rem;
+            color: var(--white-soft);
+            margin-top: 0.15rem;
+        }
+
+        .flow-arrow {
+            color: var(--green);
+            font-size: 1.25rem;
+        }
+
+        /* CTA */
+        .cta {
+            padding: 2.5rem 1.25rem;
+            text-align: center;
+            background: var(--black-light);
+        }
+
+        .cta h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .cta p {
+            font-size: 0.85rem;
+            color: var(--white-soft);
+            margin-bottom: 1.5rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 0.85rem 2rem;
+            background: var(--green);
+            color: var(--black);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 1.5rem 1.25rem;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #666;
+            border-top: 1px solid var(--grey);
+        }
+
+        .footer a { color: var(--green); text-decoration: none; }
+
+        /* Desktop */
+        @media (min-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); max-width: 700px; }
+            .compare { max-width: 600px; }
+            .flow { flex-direction: row; max-width: 700px; }
+            .flow-step { max-width: 200px; }
+            .flow-arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="logo">OwnYourWeb Systems</div>
+        <a href="https://innergclaw.github.io/ownyourweb-landing/" class="nav-link">Learn More</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-badge">Demo Preview</div>
+        <h1>AI-Powered <span>Lead Generation</span> for Real Estate</h1>
+        <p>Stop hiring cold callers. Start automating your pipeline. AI finds, qualifies, and delivers leads ~ so you can focus on closing deals.</p>
+    </section>
+
+    <!-- Problem vs Solution -->
+    <section class="section">
+        <div class="section-label">The Shift</div>
+        <div class="section-title">Cold Calling vs AI Automation</div>
+        <div class="compare">
+            <div class="compare-card old">
+                <h3>❌ The Old Way</h3>
+                <ul>
+                    <li>Pay per caller daily</li>
+                    <li>Limited to working hours</li>
+                    <li>Inconsistent quality</li>
+                    <li>Manual CRM updates</li>
+                    <li>High turnover</li>
+                    <li>Slow scaling</li>
+                </ul>
+            </div>
+            <div class="compare-card new">
+                <h3>✅ The New Way</h3>
+                <ul>
+                    <li>One-time system setup</li>
+                    <li>Runs 24/7 automatically</li>
+                    <li>Consistent qualification</li>
+                    <li>Auto-organized pipeline</li>
+                    <li>No hiring needed</li>
+                    <li>Scale on demand</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section section-dark">
+        <div class="section-label">Process</div>
+        <div class="section-title">How It Works</div>
+        <div class="flow">
+            <div class="flow-step">
+                <div class="num">01</div>
+                <div class="label">Find</div>
+                <div class="desc">AI scans property data, listings, and public records to identify potential seller leads</div>
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">
+                <div class="num">02</div>
+                <div class="label">Qualify</div>
+                <div class="desc">Leads are filtered by criteria ~ motivation, equity, timeline ~ so you only get hot prospects</div>
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">
+                <div class="num">03</div>
+                <div class="label">Deliver</div>
+                <div class="desc">Qualified leads land in your pipeline ready to close ~ organized, prioritized, and actionable</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section">
+        <div class="section-label">Capabilities</div>
+        <div class="section-title">What the System Does</div>
+        <div class="features-grid">
+            <div class="feature">
+                <h3>Automated Lead Sourcing</h3>
+                <p>AI agents pull from property records, MLS data, and public listings to build your lead list ~ no manual research needed</p>
+            </div>
+            <div class="feature">
+                <h3>Smart Qualification</h3>
+                <p>Leads are scored and filtered based on your criteria ~ motivated sellers, property type, location, deal size</p>
+            </div>
+            <div class="feature">
+                <h3>24/7 Pipeline</h3>
+                <p>The system runs around the clock ~ finding and qualifying leads while you sleep, eat, or close deals</p>
+            </div>
+            <div class="feature">
+                <h3>CRM Integration</h3>
+                <p>Leads flow directly into your existing workflow ~ organized, tagged, and ready for your acquisitions team</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <h2>Ready to See It Live?</h2>
+        <p>This is a demo preview. The full system is custom-built for your operation ~ your market, your criteria, your pipeline.</p>
+        <a href="mailto:nasirr@innergintel.org" class="cta-btn">Let's Talk Setup</a>
+    </section>
+
+    <footer class="footer">
+        Built by <a href="https://nasirr.innergintel.org">Nasirr Mayo</a> ~ OwnYourWeb Systems<br>
+        InnerG Intel ~ AI Education & Business Automation
+    </footer>
+</body>
+</html>
